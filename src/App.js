@@ -21,13 +21,13 @@ export default class App extends React.Component {
 
     this._subscriptions.push(
       calendarManagerEmitter.addListener(
-          'EventReminder',
-          (reminder) => {
-              console.log('EVENT EMITTER');
-              console.log('name: ' + reminder.name);
-              console.log('location: ' + reminder.location);
-              console.log('date: ' + reminder.date);
-          }
+        'EventReminder',
+        (reminder) => {
+          console.log('EVENT EMITTER');
+          console.log('name: ' + reminder.name);
+          console.log('location: ' + reminder.location);
+          console.log('date: ' + reminder.date);
+        }
       )
     );
 
