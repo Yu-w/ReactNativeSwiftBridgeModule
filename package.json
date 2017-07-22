@@ -4,7 +4,12 @@
   "description": "Hello Expo!",
   "author": null,
   "private": true,
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "EntryPoint.js",
+  "scripts": {
+    "build": "babel src/ -d lib/",
+    "prepublish": "npm run build",
+    "flow": "flow"
+  },
   "dependencies": {
     "expo": "^19.0.0",
     "react": "16.0.0-alpha.12",
