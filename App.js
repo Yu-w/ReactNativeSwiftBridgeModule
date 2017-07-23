@@ -3,44 +3,42 @@
 import React from 'react';
 import { StyleSheet, Text, View, NativeModules, NativeEventEmitter } from 'react-native';
 
-const calendarManagerEmitter = new NativeEventEmitter(NativeModules.CalendarManager);
+const CalendarManager = NativeModules.CalendarManager;
+
+import type EmitterSubscription from 'EmitterSubscription';
 
 export default class App extends React.Component {
 
-  _subscriptions = []
+  _subscription: ?EmitterSubscription = null;
 
   componentDidMount() {
-    const CalendarManager = NativeModules.CalendarManager;
     console.log('PROPERTIES');
     console.log(CalendarManager);
 
-    CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey', Date.now(), (res) => {
+    this._subscription = new NativeEventEmitter(CalendarManager).addListener(
+      'EventReminder',
+      (res: Object) => {
+        console.log('EVENT EMITTER');
+        console.log('name: ' + res.name);
+        console.log('location: ' + res.location);
+        console.log('date: ' + res.date);
+      }
+    );
+
+    CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey', Date.now(), (res: Object) => {
       console.log('CALLBACK');
       console.log(res);
     });
 
-    this._subscriptions.push(
-      calendarManagerEmitter.addListener(
-        'EventReminder',
-        (reminder) => {
-          console.log('EVENT EMITTER');
-          console.log('name: ' + reminder.name);
-          console.log('location: ' + reminder.location);
-          console.log('date: ' + reminder.date);
-        }
-      )
-    );
-
     CalendarManager.addPromisedEvent('Yu Wang')
-    .then((res) => {
-      console.log('PROMISE CALLBACK')
+    .then((res: Object) => {
+      console.log('PROMISE CALLBACK');
       console.log(res);
     });
   }
 
   componentWillUnmount() {
-    this._subscriptions = [];
-    calendarManagerEmitter.removeListeners();
+    this._subscription && this._subscription.remove();
   }
 
   render() {

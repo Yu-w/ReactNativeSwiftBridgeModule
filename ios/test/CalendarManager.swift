@@ -11,7 +11,7 @@ import UIKit
 @objc(CalendarManager)
 class CalendarManager: RCTEventEmitter {
 
-    override func supportedEvents() -> [String]! {
+    @objc override func supportedEvents() -> [String]! {
         return [
             "EventReminder",
         ]

@@ -6,8 +6,6 @@
   "private": true,
   "main": "EntryPoint.js",
   "scripts": {
-    "build": "babel src/ -d lib/",
-    "prepublish": "npm run build",
     "flow": "flow"
   },
   "dependencies": {
